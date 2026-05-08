@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/rithika-2210/career-advisor-completed/static/css/main.786577a2.css",
-    "main.js": "/rithika-2210/career-advisor-completed/static/js/main.d147bb73.js",
-    "index.html": "/rithika-2210/career-advisor-completed/index.html",
-    "main.786577a2.css.map": "/rithika-2210/career-advisor-completed/static/css/main.786577a2.css.map",
-    "main.d147bb73.js.map": "/rithika-2210/career-advisor-completed/static/js/main.d147bb73.js.map"
+    "main.css": "/career-advisor-completed/static/css/main.786577a2.css",
+    "main.js": "/career-advisor-completed/static/js/main.d147bb73.js",
+    "index.html": "/career-advisor-completed/index.html",
+    "main.786577a2.css.map": "/career-advisor-completed/static/css/main.786577a2.css.map",
+    "main.d147bb73.js.map": "/career-advisor-completed/static/js/main.d147bb73.js.map"
   },
   "entrypoints": [
     "static/css/main.786577a2.css",
