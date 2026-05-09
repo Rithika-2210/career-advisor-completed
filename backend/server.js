@@ -5,44 +5,72 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+
 const connectDB = require('./config/db');
-// Import routes
+
+// Routes
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const assessmentRoutes = require('./routes/assessmentRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
 const collegeRoutes = require('./routes/collegeRoutes');
-// Import error handler
+
+// Error handler
 const errorHandler = require('./middleware/errorHandler');
+
 const app = express();
-// 🔍 Debug (you can remove later)
-console.log("SERVER MONGO_URI:", process.env.MONGO_URI);
-// Connect to MongoDB
+
+// 🔍 Debug (optional)
+// Connect DB
 connectDB();
-// Security middleware
+
+// Security
 app.use(helmet());
-// Rate limiting - 100 requests per 15 minutes
+
+// Rate Limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
   message: { error: 'Too many requests, please try again later.' }
 });
 app.use('/api/', limiter);
-// CORS configuration
+
+// ✅ CORS CONFIG (FIXED)
+const configuredOrigins = (process.env.CLIENT_URL || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const allowedOrigins = [...new Set([
+  'http://localhost:3000',
+  'https://rithika-2210.github.io',
+  ...configuredOrigins
+])];
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log('Blocked by CORS:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-// Body parser middleware
+
+// Body parser
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
-// Logging in development
+
+// Logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
-// Health check route
+
+// Health
 app.get('/health', (req, res) => {
   res.json({
     status: 'OK',
@@ -50,12 +78,15 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
-// API Routes
+
+// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/assessments', assessmentRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/colleges', collegeRoutes);
+
+// Root
 app.get('/', (req, res) => {
   res.json({
     success: true,
@@ -70,25 +101,31 @@ app.get('/', (req, res) => {
     ]
   });
 });
-// 404 handler
+
+// 404
 app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
     message: `Route ${req.originalUrl} not found`
   });
 });
-// Global error handler (must be last)
+
+// Error handler
 app.use(errorHandler);
+
 // Start server
 const PORT = process.env.PORT || 5000;
+
 const server = app.listen(PORT, () => {
   console.log(`\n🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
   console.log(`📡 API Base: http://localhost:${PORT}/api`);
-  console.log(`❤️  Health: http://localhost:${PORT}/health\n`);
+  console.log(`❤️ Health: http://localhost:${PORT}/health\n`);
 });
-// Handle unhandled promise rejections
+
+// Handle unhandled rejections
 process.on('unhandledRejection', (err) => {
   console.error('❌ Unhandled Rejection:', err.message);
   server.close(() => process.exit(1));
 });
+
 module.exports = app;

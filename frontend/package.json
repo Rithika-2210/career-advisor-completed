@@ -1,6 +1,7 @@
 {
   "name": "career-advisor-frontend",
   "version": "1.0.0",
+  "homepage": "https://rithika-2210.github.io/career-advisor-completed",
   "private": true,
   "dependencies": {
     "react": "^18.2.0",
