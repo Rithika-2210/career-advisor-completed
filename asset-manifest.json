@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/career-advisor-completed/static/css/main.786577a2.css",
-    "main.js": "/career-advisor-completed/static/js/main.d147bb73.js",
+    "main.js": "/career-advisor-completed/static/js/main.b47f2304.js",
     "index.html": "/career-advisor-completed/index.html",
     "main.786577a2.css.map": "/career-advisor-completed/static/css/main.786577a2.css.map",
-    "main.d147bb73.js.map": "/career-advisor-completed/static/js/main.d147bb73.js.map"
+    "main.b47f2304.js.map": "/career-advisor-completed/static/js/main.b47f2304.js.map"
   },
   "entrypoints": [
     "static/css/main.786577a2.css",
-    "static/js/main.d147bb73.js"
+    "static/js/main.b47f2304.js"
   ]
 }
