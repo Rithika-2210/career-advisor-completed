@@ -56,6 +56,20 @@ app.use('/api/users', userRoutes);
 app.use('/api/assessments', assessmentRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/colleges', collegeRoutes);
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: "Career Advisor Backend is running 🚀",
+    availableRoutes: [
+      "/health",
+      "/api/auth",
+      "/api/users",
+      "/api/assessments",
+      "/api/recommendations",
+      "/api/colleges"
+    ]
+  });
+});
 // 404 handler
 app.use('*', (req, res) => {
   res.status(404).json({
